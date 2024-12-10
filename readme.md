@@ -1,3 +1,6 @@
+# Project information
+- Started: 2024.12.09
+- Developer: ThongND
 # Intro
 + Save user operations, and error prone.
 # Todos

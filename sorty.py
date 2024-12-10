@@ -39,14 +39,25 @@ database_types=('.csv','.dat','.db','.log','.mdb','.sav','.sql','.tar','.xml')
 def get_non_hidden_files(root_dir):
     return [f for f in os.listdir(root_dir) if os.path.isfile(os.path.join(root_dir,f)) and not f.startswith('.')] 
 
-
+def is_file_open(file_path):
+    try:
+        # Try opening the file in exclusive mode
+        with open(file_path, 'r+'):
+            return False  # File is not open by another process
+    except IOError:
+        return True  # File is open by another process
+    
 # Function to move files to their respective directories 
 def move_files(files):
     count = 0
     for file in files:
+        source_file_dir = os.path.join(root_dir,file)
+        count = count + 1
+        print("Process file number: " + str(count))
+        if is_file_open(source_file_dir):
+            print("File  is being open, skip"+ source_file_dir)
+            continue
         try:
-            count = count + 1
-            print("Try to move file number: " + str(count))
             if file.lower().endswith(doc_types):
                 dest_dir = '/Users/{}/Downloads/Documents/'.format(user)
                
