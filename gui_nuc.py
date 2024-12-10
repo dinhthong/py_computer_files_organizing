@@ -9,6 +9,7 @@ from configparser import ConfigParser
 from change_ftdi_knan_name import *
 from copy_nuc_data import *
 from nuc_production import *
+from sorty import *
 #full_app_data_path = os.getcwd()+"\\...\\..."
 full_app_data_path = os.getcwd()
 # os.chdir('..')
@@ -167,16 +168,17 @@ class button_action:
 
 class button_action2(button_action):
     def do_when_button_clicked(self):
-        print("dir = " + dir_soft_q.get())
-        self.callback_func(dir_soft_q.get())
+        print("button_action2. work with SOURCE ")
+        print("dir = " + dir_org_q.get())
+        self.callback_func(dir_org_q.get())
 
 class button_action_two_dir(button_action):
     def do_when_button_clicked(self):
         print("dir = " + dir_soft_q.get())
         self.callback_func(dir_org_q.get(), dir_soft_q.get())
 
-button_chang_folder_name = button_action("1. Check and correct NUC folder name", check_and_change_nucfolder_name)
-button_chang_folder_name.create_button(2, 2)
+button_clean_folder = button_action2("1. Clean up source folder sorty", buton_sorty)
+button_clean_folder.create_button(2, 2)
 
 btn_get_ftdi_and_dev_pair = tk.Button(wrapper3, text ="2. Extract NUC folder info to JSON file", 
                        bg ='#ffb3fe', command = btn_extract_and_save_nuc_folder_info_to_json_file)
