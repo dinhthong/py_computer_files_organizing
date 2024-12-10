@@ -42,9 +42,11 @@ def get_non_hidden_files(root_dir):
 
 # Function to move files to their respective directories 
 def move_files(files):
-
+    count = 0
     for file in files:
         try:
+            count = count + 1
+            print("Try to move file number: " + str(count))
             if file.lower().endswith(doc_types):
                 dest_dir = '/Users/{}/Downloads/Documents/'.format(user)
                
@@ -74,7 +76,8 @@ def move_files(files):
 
             else : 
                 continue
-
+            print("move: " + os.path.join(root_dir,file))
+            print("destination dir: " + dest_dir)
             move(os.path.join(root_dir,file),dest_dir)
             
         except IOError as emsg:
