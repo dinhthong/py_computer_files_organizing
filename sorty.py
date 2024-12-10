@@ -77,7 +77,8 @@ def move_files(files):
 
             move(os.path.join(root_dir,file),dest_dir)
             
-        except IOError:
+        except IOError as emsg:
+            print(emsg)
             pass
 
 def buton_sorty(source_dir):
