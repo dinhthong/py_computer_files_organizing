@@ -194,7 +194,7 @@ button_rm_status_msg_in_org.create_button(5, 2)
 # only use this to arrange files to folder
 # the program only tries to search device serial pair and create a new folder based off the json file
 # the program doens't know the output and result of these files (after generate NUC and download firmware)
-btn_rm_status_msg_in_soft = button_action2("5. Arrange NUC files to folder in SOFT", arrange_nuc_files_to_folder) 
+btn_rm_status_msg_in_soft = button_action2("5. Copy all files to download folder", arrange_nuc_files_to_folder) 
 btn_rm_status_msg_in_soft.create_button(2, 4)
 
 btn_arr_nuc_files_infirstlevel_in_soft = button_action2("6. Arrange NUC files in SOFT first level", arrange_nuc_files_in_firstlevel_subfolder) 
