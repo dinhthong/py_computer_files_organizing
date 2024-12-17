@@ -206,7 +206,7 @@ btn_rm_status_msg_in_soft.create_button(4, 4)
 btn_rm_status_msg_in_soft = button_action_two_dir("5. Copy nuc_table files from ORG to SOFT", duplicate_nuc_table_only) 
 btn_rm_status_msg_in_soft.create_button(2, 3)
 
-root.title("KNAN NUC check tool")
+root.title("ThongND work utility tool")
 root.geometry("1200x800")
 #root.resizable(False, False)
 
