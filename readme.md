@@ -10,6 +10,7 @@
 - Detects if the folder is a movie. 
 - Detect subtitles files and move to Movie folder.
 - Each detecting pattern and destination folder can have a separate 
+- Only create new folder if the files to be moved to that folder exists
 
 ## Saved browser tabs clean-up
 - Select Excel which contains saved tabs

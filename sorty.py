@@ -169,14 +169,16 @@ def func_organize_folders(_source_dir, _folders_list):
         else:
             print(f"The folder '{folder_path}' is NOT a Git repository.")
 
-def button_sorty(source_dir):
+def button_clean_up_files_sorty(source_dir):
     print("In sorty")
-    folders_list = get_all_folder_names(source_dir)
-    func_organize_folders(source_dir, folders_list)
     create_folder(source_dir)
     files = get_non_hidden_files(source_dir) 
     func_organize_files(source_dir, files)
     
+def button_clean_up_folders_sorty(source_dir):
+    print("In button_clean_up_folders_sorty")
+    folders_list = get_all_folder_names(source_dir)
+    func_organize_folders(source_dir, folders_list)
 
 # Calling the sorting function if particularly running this file
 if __name__ == "__main__":

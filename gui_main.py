@@ -177,7 +177,7 @@ class button_action_two_dir(button_action):
         print("dir = " + dir_soft_q.get())
         self.callback_func(dir_org_q.get(), dir_soft_q.get())
 
-button_clean_folder = button_action2("1. Clean up source folder sorty", button_sorty)
+button_clean_folder = button_action2("1. Clean up files in source folder", button_clean_up_files_sorty)
 button_clean_folder.create_button(2, 2)
 
 btn_get_ftdi_and_dev_pair = tk.Button(wrapper3, text ="2. Extract NUC folder info to JSON file", 
@@ -194,7 +194,7 @@ button_rm_status_msg_in_org.create_button(5, 2)
 # only use this to arrange files to folder
 # the program only tries to search device serial pair and create a new folder based off the json file
 # the program doens't know the output and result of these files (after generate NUC and download firmware)
-btn_rm_status_msg_in_soft = button_action2("5. Copy all files to download folder", arrange_nuc_files_to_folder) 
+btn_rm_status_msg_in_soft = button_action2("5. Clean up folders in source folder", button_clean_up_folders_sorty) 
 btn_rm_status_msg_in_soft.create_button(2, 4)
 
 btn_arr_nuc_files_infirstlevel_in_soft = button_action2("6. Arrange NUC files in SOFT first level", arrange_nuc_files_in_firstlevel_subfolder) 
