@@ -4,7 +4,8 @@
 # Libraries Required 
 import os                   # Library contains all the functions that returns system dependent functionality
 from shutil import move     # Imports move function from shell utilities
-
+import subprocess
+import re
 
 #user  = os.getlogin()            # defining the current username 
 user  = 'User' 
@@ -143,6 +144,35 @@ def get_all_folder_names(input_folder):
         print(f"Error: Permission denied to access '{input_folder}'.")
     return folder_names
 
+# ChatGPT
+def get_git_remote_author(folder_path):
+    """
+    Retrieves the remote repository owner based on the 'origin' URL.
+
+    Parameters:
+        folder_path (str): Path to the Git repository.
+
+    Returns:
+        str: The repository owner name (if available).
+    """
+    try:
+        # Get the remote URL
+        remote_url = subprocess.check_output(
+            ['git', '-C', folder_path, 'remote', 'get-url', 'origin'],
+            stderr=subprocess.DEVNULL,
+            text=True
+        ).strip()
+
+        # Extract the username/repository owner for GitHub/GitLab URLs
+        match = re.search(r'github\.com[:/](.*?)/', remote_url)
+        if match:
+            return match.group(1)  # Return the repository owner
+
+        return f"Remote URL: {remote_url} (Unable to determine owner)"
+
+    except subprocess.CalledProcessError:
+        return "Error: Not a Git repository or 'origin' not set."
+    
 def is_git_folder(folder_path):
     """
     Check if a folder is a Git repository by looking for the '.git' folder.
@@ -166,6 +196,8 @@ def func_organize_folders(_source_dir, _folders_list):
             continue
         if is_git_folder(folder_path):
             print(f"The folder '{folder_path}' is a Git repository.")
+            git_author_info = get_git_remote_author(folder_path)
+            print(f"Repository Owner: {git_author_info}")
         else:
             print(f"The folder '{folder_path}' is NOT a Git repository.")
 
@@ -174,7 +206,8 @@ def button_clean_up_files_sorty(source_dir):
     create_folder(source_dir)
     files = get_non_hidden_files(source_dir) 
     func_organize_files(source_dir, files)
-    
+
+
 def button_clean_up_folders_sorty(source_dir):
     print("In button_clean_up_folders_sorty")
     folders_list = get_all_folder_names(source_dir)
