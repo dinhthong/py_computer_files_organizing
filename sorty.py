@@ -11,7 +11,7 @@ user  = 'User'
 
 #root_dir = '/Users/{}/Downloads/'.format(user)      # Defining the root folder which we want to work on i.e Downloads folder here
 
-Folders = ['Images','Documents','Videos','Softwares','Compressed','Codes','Databases']  # Declaring names of all the folders for sorted_files 
+Folders = ['Images','Documents','Videos','Softwares','Compressed','Codes','Databases']  # Declaring names of all the folders_list for sorted_files 
  
 # Code block to check if the folder already exisits , if not create with the name 
 def create_folder(_source_dir):
@@ -136,18 +136,44 @@ def get_all_folder_names(input_folder):
             item_path = os.path.join(input_folder, item)
             # Check if the item is a directory
             if os.path.isdir(item_path):
-                folder_names.append(item)
+                folder_names.append(item_path)
     except FileNotFoundError:
         print(f"Error: The folder '{input_folder}' does not exist.")
     except PermissionError:
         print(f"Error: Permission denied to access '{input_folder}'.")
     return folder_names
 
+def is_git_folder(folder_path):
+    """
+    Check if a folder is a Git repository by looking for the '.git' folder.
+
+    Parameters:
+        folder_path (str): Path to the folder to check.
+
+    Returns:
+        bool: True if the folder is a Git repository, False otherwise.
+    """
+    git_path = os.path.join(folder_path, '.git')
+    return os.path.isdir(git_path)
+
+def func_organize_folders(_source_dir, _folders_list):
+    print("In func_organize_folders")
+    print(_folders_list)
+    for folder_path in _folders_list:
+        print(folder_path)
+        if not os.path.exists(folder_path):
+            print(f"Error: The folder '{folder_path}' does not exist.")
+            continue
+        if is_git_folder(folder_path):
+            print(f"The folder '{folder_path}' is a Git repository.")
+        else:
+            print(f"The folder '{folder_path}' is NOT a Git repository.")
+
 def button_sorty(source_dir):
     print("In sorty")
+    folders_list = get_all_folder_names(source_dir)
+    func_organize_folders(source_dir, folders_list)
     create_folder(source_dir)
-    folders = get_all_folder_names(source_dir)
-    print(folders)
     files = get_non_hidden_files(source_dir) 
     func_organize_files(source_dir, files)
     
