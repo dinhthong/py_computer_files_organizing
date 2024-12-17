@@ -119,11 +119,38 @@ def func_organize_files(_source_dir, files):
             pass
     #print(doc_file_list)
 
+def get_all_folder_names(input_folder):
+    """
+    Get all folder names in the specified input folder.
+
+    Parameters:
+        input_folder (str): Path to the input folder.
+
+    Returns:
+        list: A list of folder names within the input folder.
+    """
+    folder_names = []
+    try:
+        # Iterate over all items in the input folder
+        for item in os.listdir(input_folder):
+            item_path = os.path.join(input_folder, item)
+            # Check if the item is a directory
+            if os.path.isdir(item_path):
+                folder_names.append(item)
+    except FileNotFoundError:
+        print(f"Error: The folder '{input_folder}' does not exist.")
+    except PermissionError:
+        print(f"Error: Permission denied to access '{input_folder}'.")
+    return folder_names
+
 def button_sorty(source_dir):
     print("In sorty")
     create_folder(source_dir)
+    folders = get_all_folder_names(source_dir)
+    print(folders)
     files = get_non_hidden_files(source_dir) 
     func_organize_files(source_dir, files)
+    
 
 # Calling the sorting function if particularly running this file
 if __name__ == "__main__":
