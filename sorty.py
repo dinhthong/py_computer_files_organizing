@@ -33,7 +33,7 @@ video_dir = '/Users/{}/Downloads/Videos/'.format(user)
 
 # category wise file types 
 doc_types = ('.doc', '.docx', '.txt', '.pdf', '.xls', '.ppt', '.xlsx', '.pptx', '.md','.rtf','.tex','.pem')
-img_types = ('.cr2','.jpg', '.jpeg', '.png', '.svg', '.gif', '.tif', '.tiff','.psd','.bmp')
+img_types = ('.cr2','.jpg', '.jpeg', '.png', '.svg', '.gif', '.tif', '.tiff','.psd','.bmp', '.webp')
 video_types= ('.3gp','.mkv','.avi','.mov','.mpg','.mpeg','.wmv','.h264', '.mp4')
 software_types = ('.exe','.msi')
 compressed_types =('.zip','.tar','.rar','.iso','.7z')
@@ -54,42 +54,60 @@ def is_file_open(file_path):
     
 # Function to move files to their respective directories 
 # Todo: Write code check condition and pattern than else if.
-def move_files(_source_dir, files):
+
+def func_organize_files(_source_dir, files):
     count = 0
+    # reset the file list
+    doc_file_list = []
+    img_file_list = []
+    video_file_list = []
+    software_file_list = []
+    database_types_file_list = []
+    programming_types_file_list = []
+    compressed_file_list = []
     for file in files:
         source_file_dir = os.path.join(_source_dir,file)
         count = count + 1
         print("Process file number: " + str(count))
         if is_file_open(source_file_dir):
-            print("File  is being open, skip"+ source_file_dir)
+            print("File  is being open, skip: "+ source_file_dir)
             continue
         try:
             if file.lower().endswith(doc_types):
                 #dest_dir = /Users/{}/Documents/Images/'.format(user)
+                doc_file_list.append(file)
                 dest_dir = _source_dir + '/Documents'
             
             elif file.lower().endswith(img_types):
                 #dest_dir = '/Users/{}/Downloads/Images/'.format(user)
                 dest_dir = _source_dir + '/Images'
-            
+                img_file_list.append(file)
+
             elif file.lower().endswith(video_types):
                 #dest_dir = '/Users/{}/Downloads/Videos/'.format(user)
                 dest_dir = _source_dir + '/Videos'
+                video_file_list.append(file)
 
             elif file.lower().endswith(software_types):
                 #dest_dir = '/Users/{}/Downloads/Softwares/'.format(user)
                 dest_dir = _source_dir + '/Softwares'
-            
+                software_file_list.append(file)
+
             elif file.lower().endswith(compressed_types):
                 #dest_dir = '/Users/{}/Downloads/Compressed/'.format(user)
                 dest_dir = _source_dir + '/Compressed'
-            
+                compressed_file_list.append(file)
+
             elif file.lower().endswith(programming_types):
                 #dest_dir = '/Users/{}/Downloads/Codes/'.format(user)
                 dest_dir = _source_dir + '/Codes'
+                programming_types_file_list.append(file)
+
             elif file.lower().endswith(database_types):
                 #dest_dir = '/Users/{}/Downloads/Databases/'.format(user)
                 dest_dir = _source_dir + '/Databases'
+                database_types_file_list.append(file)
+
             else : 
                 continue
             print("move: " + os.path.join(_source_dir,file))
@@ -99,17 +117,18 @@ def move_files(_source_dir, files):
         except IOError as emsg:
             print(emsg)
             pass
+    #print(doc_file_list)
 
-def buton_sorty(source_dir):
+def button_sorty(source_dir):
     print("In sorty")
     create_folder(source_dir)
     files = get_non_hidden_files(source_dir) 
-    move_files(source_dir, files)
+    func_organize_files(source_dir, files)
 
 # Calling the sorting function if particularly running this file
 if __name__ == "__main__":
     files = get_non_hidden_files(root_dir) 
-    move_files(files)
+    func_organize_files(files)
 
 
 #Uncomment code below for debugging 

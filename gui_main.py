@@ -177,7 +177,7 @@ class button_action_two_dir(button_action):
         print("dir = " + dir_soft_q.get())
         self.callback_func(dir_org_q.get(), dir_soft_q.get())
 
-button_clean_folder = button_action2("1. Clean up source folder sorty", buton_sorty)
+button_clean_folder = button_action2("1. Clean up source folder sorty", button_sorty)
 button_clean_folder.create_button(2, 2)
 
 btn_get_ftdi_and_dev_pair = tk.Button(wrapper3, text ="2. Extract NUC folder info to JSON file", 
