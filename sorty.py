@@ -189,6 +189,7 @@ def is_git_folder(folder_path):
 def func_organize_folders(_source_dir, _folders_list):
     print("In func_organize_folders")
     print(_folders_list)
+    thong_project_file_list = []
     for folder_path in _folders_list:
         print(folder_path)
         if not os.path.exists(folder_path):
@@ -198,8 +199,12 @@ def func_organize_folders(_source_dir, _folders_list):
             print(f"The folder '{folder_path}' is a Git repository.")
             git_author_info = get_git_remote_author(folder_path)
             print(f"Repository Owner: {git_author_info}")
+            if git_author_info == 'dinhthong':
+                thong_project_file_list.append(folder_path)
+                continue
         else:
             print(f"The folder '{folder_path}' is NOT a Git repository.")
+    print(thong_project_file_list)
 
 def button_clean_up_files_sorty(source_dir):
     print("In sorty")
