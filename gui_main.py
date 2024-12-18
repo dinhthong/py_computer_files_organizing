@@ -32,6 +32,8 @@ if config.has_section('main') == False:
     config.add_section('main')
     config.set('main', 'nuc_base_dir', "")
     config.set('main', 'software_folder', "")
+    config.set('main', 'excel_file', "")
+
 def submitact():
     user = Username.get()
     passw = password.get()
@@ -62,12 +64,33 @@ def btn_soft_dir_cb():
         config.set('main', 'software_folder', file_path_variable)
         status_q.set("Change folder contains KNAN_Software to: " + file_path_variable)
 
+def btn_excel_dir_cb():
+    #print("Refreshing table")
+    file_path_variable = search_for_excel_file_path(dir_excel_q.get())
+    print ("\nfile_path_variable = ", file_path_variable)
+    if file_path_variable != "":
+        dir_excel_q.set(file_path_variable)
+        # write to config file
+        # config.add_section('main')
+        config.set('main', 'excel_file', file_path_variable)
+        status_q.set("Change folder contains btn_excel_dir_cb to: " + file_path_variable)
+
+
 def search_for_file_path(current_dir):
     #currdir = os.getcwd()
     tempdir = filedialog.askdirectory(parent=root, initialdir=current_dir, title='Please select a directory')
     if len(tempdir) > 0:
         print ("You chose: %s" % tempdir)
     return tempdir
+
+def search_for_excel_file_path(current_dir):
+    file_path = filedialog.askopenfilename(
+    title="Select an Excel File",
+    filetypes=[("Excel Files", "*.xlsx *.xls"), ("All Files", "*.*")],
+)
+    if len(file_path) > 0:
+        print ("You chose: %s" % file_path)
+    return file_path
 
 wrapper0 = LabelFrame(root, text="Login")
 wrapper1 = LabelFrame(root, text="main")
@@ -102,6 +125,15 @@ def search_btn_cb():
 btn_org_dir_object = tk.Button(wrapper2, text ="ORG_DIR", 
                        bg ='blue', command = btn_org_dir_cb)
 btn_org_dir_object.place(x = 10, y = 10, width = 75)
+# Search box
+dir_org_q = StringVar()
+# lbl = Label(wrapper2, width=10, text="Selected dir")
+# lbl.pack(side=tk.LEFT, padx=15)
+ent2 = Entry(wrapper2, textvariable=dir_org_q)
+ent2.pack(side=tk.LEFT, padx=6)
+ent2.place(x=100, y=15, height=20, width=350)
+dir_org_q.set(config.get('main', 'nuc_base_dir'))
+
 # Search selection
 # Search box
 q = StringVar()
@@ -114,15 +146,6 @@ ent.pack(side=tk.LEFT, padx=6)
 btn = Button(wrapper2, text="Search", command=search_btn_cb)
 btn.pack(side=tk.LEFT, padx=6) 
 
-# Search box
-dir_org_q = StringVar()
-# lbl = Label(wrapper2, width=10, text="Selected dir")
-# lbl.pack(side=tk.LEFT, padx=15)
-ent2 = Entry(wrapper2, textvariable=dir_org_q)
-ent2.pack(side=tk.LEFT, padx=6)
-ent2.place(x=100, y=15, height=20, width=350)
-dir_org_q.set(config.get('main', 'nuc_base_dir'))
-
 # data_folder selection
 btn_soft_dir_object = tk.Button(wrapper2, text ="SOFT_DIR", 
                        bg ='blue', command = btn_soft_dir_cb)
@@ -133,6 +156,17 @@ ent_data = Entry(wrapper2, textvariable=dir_soft_q)
 ent_data.pack(side=tk.LEFT, padx=6)
 ent_data.place(x=600, y=40, height=20, width=350)
 dir_soft_q.set(config.get('main', 'software_folder'))
+
+# excel file selection button and textbox
+btn_excel_dir_object = tk.Button(wrapper2, text ="EXCEL_DIR", 
+                       bg ='blue', command = btn_excel_dir_cb)
+btn_excel_dir_object.place(x = 600, y = 80, width = 75)
+
+dir_excel_q = StringVar()
+ent_data = Entry(wrapper2, textvariable=dir_excel_q)
+ent_data.pack(side=tk.LEFT, padx=6)
+ent_data.place(x=700, y=80, height=20, width=350)
+dir_excel_q.set(config.get('main', 'excel_file'))
 
 # working log on GUI
 status_q = StringVar()
@@ -168,10 +202,11 @@ class button_action:
 
 class button_action2(button_action):
     def do_when_button_clicked(self):
-        print("button_action2. work with SOURCE ")
+        print("button_action2. work with SOURCE folder")
         print("dir = " + dir_org_q.get())
         self.callback_func(dir_org_q.get())
 
+# button action with arguments of 2 selecteddirectories
 class button_action_two_dir(button_action):
     def do_when_button_clicked(self):
         print("dir = " + dir_soft_q.get())

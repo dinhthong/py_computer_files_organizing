@@ -13,7 +13,7 @@
 - Only create new folder if the files to be moved to that folder exists
 ## 2024.12.18
 - Organization Tools: Set destination to move current folder 
-
+- Checked if the target folder already exists file with the same name before moving (avoid unexpected override)
 ## Saved browser tabs clean-up
 - Select Excel which contains saved tabs
 - Find and remove duplicates tabs. Log report
