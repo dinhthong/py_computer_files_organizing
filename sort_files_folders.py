@@ -6,13 +6,15 @@ import os                   # Library contains all the functions that returns sy
 from shutil import move     # Imports move function from shell utilities
 import subprocess
 import re
+import shutil
+import psutil
 
 #user  = os.getlogin()            # defining the current username 
 user  = 'User' 
 
 #root_dir = '/Users/{}/Downloads/'.format(user)      # Defining the root folder which we want to work on i.e Downloads folder here
 
-Folders = ['Images','Documents','Videos','Softwares','Compressed','Codes','Databases']  # Declaring names of all the folders_list for sorted_files 
+Folders = ['Images','Documents','Videos','Softwares','Compressed','Projects_Code','Databases']  # Declaring names of all the folders_list for sorted_files 
  
 # Code block to check if the folder already exisits , if not create with the name 
 def create_folder(_source_dir):
@@ -28,7 +30,7 @@ def create_folder(_source_dir):
 
 image_dir = '/Users/{}/Downloads/Images/'.format(user)
 document_dir = '/Users/{}/Downloads/Documents/'.format(user)
-code_dir = '/Users/{}/Downloads/Codes/'.format(user)
+code_dir = '/Users/{}/Downloads/Projects_Code/'.format(user)
 software_dir = '/Users/{}/Downloads/Softwares/'.format(user)
 compressed_dir = '/Users/{}/Downloads/Compressed/'.format(user)
 database_dir = '/Users/{}/Downloads/Databases/'.format(user)
@@ -37,7 +39,7 @@ video_dir = '/Users/{}/Downloads/Videos/'.format(user)
 # category wise file types 
 doc_types = ('.doc', '.docx', '.txt', '.pdf', '.xls', '.ppt', '.xlsx', '.pptx', '.md','.rtf','.tex','.pem')
 img_types = ('.cr2','.jpg', '.jpeg', '.png', '.svg', '.gif', '.tif', '.tiff','.psd','.bmp', '.webp')
-video_types= ('.3gp','.mkv','.avi','.mov','.mpg','.mpeg','.wmv','.h264', '.mp4')
+media_types= ('.3gp','.mkv','.avi','.mov','.mpg','.mpeg','.wmv','.h264', '.mp4', '.mp3', '.m4a')
 software_types = ('.exe','.msi')
 compressed_types =('.zip','.tar','.rar','.iso','.7z')
 programming_types= ('.py','.ino','.m','.java','.js','.html','.htm','.css','.cgi','.sh','.swift','.h','.cpp','.cs')
@@ -86,7 +88,7 @@ def func_organize_files(_source_dir, files):
                 dest_dir = _source_dir + '/Images'
                 img_file_list.append(file)
 
-            elif file.lower().endswith(video_types):
+            elif file.lower().endswith(media_types):
                 #dest_dir = '/Users/{}/Downloads/Videos/'.format(user)
                 dest_dir = _source_dir + '/Videos'
                 video_file_list.append(file)
@@ -102,8 +104,8 @@ def func_organize_files(_source_dir, files):
                 compressed_file_list.append(file)
 
             elif file.lower().endswith(programming_types):
-                #dest_dir = '/Users/{}/Downloads/Codes/'.format(user)
-                dest_dir = _source_dir + '/Codes'
+                #dest_dir = '/Users/{}/Downloads/Projects_Code/'.format(user)
+                dest_dir = _source_dir + '/Projects_Code'
                 programming_types_file_list.append(file)
 
             elif file.lower().endswith(database_types):
@@ -188,6 +190,50 @@ def is_git_folder(folder_path):
     git_path = os.path.join(folder_path, '.git')
     return os.path.isdir(git_path)
 
+
+def is_folder_in_use(folder_path):
+    """
+    Check if the folder is currently in use by another process.
+    """
+    for proc in psutil.process_iter(['pid', 'name', 'open_files']):
+        try:
+            for file in proc.info['open_files'] or []:
+                if file.path.startswith(folder_path):
+                    print(f"Folder '{folder_path}' is in use by process '{proc.info['name']}' (PID: {proc.info['pid']}).")
+                    return True
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            continue
+    return False
+
+
+def move_folder_list_to_target_folder(folder_list, target_folder):
+    """
+    Move a list of folders to the target folder.
+    """
+    print("move_folder_list_to_target_folder")
+    if not os.path.exists(target_folder):
+        print(f"Target folder '{target_folder}' does not exist. Creating it...")
+        os.makedirs(target_folder)
+
+    for folder in folder_list:
+        print("folder name:" + folder)
+        if not os.path.exists(folder):
+            print(f"Source folder '{folder}' does not exist. Skipping...")
+            continue
+
+        ## checking if folder in use takes very long
+        # if is_folder_in_use(folder):
+        #     print(f"Folder '{folder}' is currently in use. Skipping...")
+        #     continue
+
+        destination = os.path.join(target_folder, os.path.basename(folder))
+        try:
+            shutil.move(folder, destination)
+            print(f"Successfully moved '{folder}' to '{destination}'.")
+        except Exception as e:
+            print(f"Failed to move '{folder}' to '{destination}': {e}")
+
+
 def func_organize_folders(_source_dir, _folders_list):
     print("In func_organize_folders")
     print(_folders_list)
@@ -211,6 +257,8 @@ def func_organize_folders(_source_dir, _folders_list):
             print(f"The folder '{folder_path}' is NOT a Git repository.")
     print(thong_git_project_file_list)
     print(other_git_project_file_list)
+    dest_dir = _source_dir + '/Projects_Code'
+    move_folder_list_to_target_folder(other_git_project_file_list, dest_dir)
 
 def button_clean_up_files_sorty(source_dir):
     print("In sorty")
