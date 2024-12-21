@@ -9,10 +9,9 @@ from configparser import ConfigParser
 from change_ftdi_knan_name import *
 from copy_nuc_data import *
 from nuc_production import *
-from sorty import *
+from sort_files_folders import *
 #full_app_data_path = os.getcwd()+"\\...\\..."
 full_app_data_path = os.getcwd()
-# os.chdir('..')
 # os.chdir('..')
 full_app_data_path = os.getcwd()
 pg_textfile_name = os.path.join(full_app_data_path, "config.ini")
