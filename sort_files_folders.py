@@ -38,13 +38,13 @@ video_dir = '/Users/{}/Downloads/Videos/'.format(user)
 
 # category wise file types 
 doc_types = ('.doc', '.docx', '.txt', '.pdf', '.xls', '.ppt', '.xlsx', '.pptx', '.md','.rtf','.tex','.pem')
-img_types = ('.cr2','.jpg', '.jpeg', '.png', '.svg', '.gif', '.tif', '.tiff','.psd','.bmp', '.webp')
-media_types= ('.3gp','.mkv','.avi','.mov','.mpg','.mpeg','.wmv','.h264', '.mp4', '.mp3', '.m4a')
+img_types = ('.cr2','.jpg', '.jpeg', '.png', '.svg', '.gif', '.tif', '.tiff','.psd','.bmp', '.webp', '.fsc')
+media_types= ('.3gp','.mkv','.avi','.mov','.mpg','.mpeg','.wmv','.h264', '.mp4', '.mp3', '.m4a', '.ogg')
 software_types = ('.exe','.msi')
 compressed_types =('.zip','.tar','.rar','.iso','.7z')
 programming_types= ('.py','.ino','.m','.java','.js','.html','.htm','.css','.cgi','.sh','.swift','.h','.cpp','.cs')
 database_types=('.csv','.dat','.db','.log','.mdb','.sav','.sql','.tar','.xml')
-
+unorganized_types= ('.ass','.crdownload', '.srt')
 # Function to get all the files in the Downloads folder as a list
 def get_non_hidden_files(root_dir):
     return [f for f in os.listdir(root_dir) if os.path.isfile(os.path.join(root_dir,f)) and not f.startswith('.')] 
