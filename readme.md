@@ -18,6 +18,8 @@
 ## Saved browser tabs clean-up
 - Select Excel which contains saved tabs
 - Find and remove duplicates tabs. Log report
+- Work with Tabs Outliner .tree file
+- Detect tab catories: News, Technical Articles, Social media... -> Organize
 
 ## Use case
 - The videos file in interested folder -> Find videos... Extract information from that each video file: save to specified folder.

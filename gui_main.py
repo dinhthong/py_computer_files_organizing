@@ -231,8 +231,8 @@ button_rm_status_msg_in_org.create_button(5, 2)
 btn_rm_status_msg_in_soft = button_action2("5. Clean up folders in source folder", button_clean_up_folders_sorty) 
 btn_rm_status_msg_in_soft.create_button(2, 4)
 
-btn_arr_nuc_files_infirstlevel_in_soft = button_action2("6. Arrange NUC files in SOFT first level", arrange_nuc_files_in_firstlevel_subfolder) 
-btn_arr_nuc_files_infirstlevel_in_soft.create_button(3, 4)
+# btn_arr_nuc_files_infirstlevel_in_soft = button_action2("6. Arrange NUC files in SOFT first level", clean_tabs_excel_file) 
+# btn_arr_nuc_files_infirstlevel_in_soft.create_button(3, 4)
 
 btn_rm_status_msg_in_soft = button_action2("7. Extract NUC files in SOFT", extract_files_in_childfolders) 
 btn_rm_status_msg_in_soft.create_button(4, 4)
